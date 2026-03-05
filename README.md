@@ -32,10 +32,12 @@ npm install
 Abre la interfaz de Cypress:
 npx cypress open
 
-Fragmento de código destacado
-JavaScript
+## Fragmento de código destacado
+
+```javascript
 describe('Suite de Pruebas: Formulario DemoQA', () => {
-    it('TC-001: Abrir la página y validar que carga', () => {
+
+        it('TC-001: Abrir la página y validar que carga', () => {
         cy.visit('[https://demoqa.com/automation-practice-form](https://demoqa.com/automation-practice-form)');
 
         cy.get('#firstName').type('Shawn');
