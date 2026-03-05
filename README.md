@@ -27,14 +27,12 @@ Si deseas clonar este repositorio y ejecutar las pruebas en tu máquina, sigue e
    ```bash
    git clone [https://github.com/FordFly/Cypress-E2E-Automation.git](https://github.com/FordFly/Cypress-E2E-Automation.git)
 Instala las dependencias necesarias:
-
-Bash
 npm install
-Abre la interfaz de Cypress:
 
-Bash
+Abre la interfaz de Cypress:
 npx cypress open
-💻 Fragmento de Código Destacado
+
+Fragmento de código destacado
 JavaScript
 describe('Suite de Pruebas: Formulario DemoQA', () => {
     it('TC-001: Abrir la página y validar que carga', () => {
