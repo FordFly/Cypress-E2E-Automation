@@ -1,23 +1,26 @@
-# Automatización E2E con Cypress | DemoQA
+# Portafolio de Automatización E2E con Cypress
 
-Este repositorio contiene un proyecto de demostración de **Automatización de Pruebas End-to-End (E2E)**. El objetivo es automatizar el flujo completo de registro de un usuario utilizando el entorno de pruebas de [DemoQA](https://demoqa.com/automation-practice-form), validando tanto la interacción con elementos complejos de la interfaz como el resultado final esperado.
+Este repositorio contiene una colección de proyectos de **Automatización de Pruebas End-to-End (E2E)**. El objetivo es demostrar la evolución en el uso de Cypress, desde la interacción con elementos complejos en la interfaz hasta la creación de flujos de compra completos utilizando buenas prácticas de programación y arquitectura de pruebas.
+
+## Proyectos Incluidos
+
+### 1. E-Commerce Checkout Flow | [SauceDemo](https://www.saucedemo.com/)
+Automatización completa de una tienda online, simulando el comportamiento real de un usuario desde el inicio de sesión hasta la confirmación de compra.
+* **Data-Driven Testing (DDT):** Uso de archivos `fixtures` (.json) para separar los datos de prueba de la lógica del código, permitiendo iterar con diferentes usuarios.
+* **Custom Commands:** Creación de comandos personalizados (ej. `cy.loginSauce()`) para encapsular lógica repetitiva, facilitando el mantenimiento y aplicando el principio DRY (Don't Repeat Yourself).
+* **E2E Testing:** Navegación y aserciones a través de múltiples pantallas (Login, Inventario, Carrito, Formulario de envío y Checkout).
+
+### 2. Formularios y UI Compleja | [DemoQA](https://demoqa.com/automation-practice-form)
+Automatización de un flujo de registro lidiando con elementos web de difícil interacción.
+* **Manejo avanzado de Localizadores y Bypass de UI:** Interacción con *Radio Buttons* y *Checkboxes* ocultos mediante CSS (`{ force: true }`).
+* **Menús Dinámicos:** Manejo de componentes *React-Select* simulando eventos de teclado en tiempo real (`{enter}`).
+* **Aserciones (Assertions):** Validación del resultado esperado comprobando la visibilidad del modal de confirmación en el DOM (`.should('be.visible')`).
 
 ## Tecnologías utilizadas
-
 * **Framework de Pruebas:** Cypress
 * **Lenguaje:** JavaScript
 * **Entorno:** Node.js
 * **Editor:** Visual Studio Code
-
-## Habilidades técnicas demostradas
-
-Durante el desarrollo de este script, se han implementado las siguientes técnicas de automatización:
-
-* **Manejo avanzado de Localizadores:** Uso de selectores CSS específicos (`#id`) para identificar elementos únicos en el DOM.
-* **Interacción con UI Compleja:** * Escritura en campos de texto estándar (`.type()`).
-  * Interacción con *Radio Buttons* y *Checkboxes* ocultos o customizados mediante CSS, utilizando técnicas de bypass de UI (`{ force: true }`).
-  * Manejo de menús desplegables dinámicos (componentes *React-Select*) simulando eventos de teclado en tiempo real (`{enter}`).
-* **Aserciones (Assertions):** Validación del resultado esperado comprobando la visibilidad del modal de confirmación en el DOM (`.should('be.visible')`), asegurando la fiabilidad de la prueba.
 
 ## Cómo ejecutar las pruebas localmente
 
@@ -33,26 +36,23 @@ Abre la interfaz de Cypress:
 npx cypress open
 
 ## Fragmento de código destacado
+Demostración del uso de Custom Commands y Data-Driven Testing en el proyecto de SauceDemo para mantener el código limpio y escalable:
 
 ```javascript
-describe('Suite de Pruebas: Formulario DemoQA', () => {
-
-        it('TC-001: Abrir la página y validar que carga', () => {
-        cy.visit('[https://demoqa.com/automation-practice-form](https://demoqa.com/automation-practice-form)');
-
-        cy.get('#firstName').type('Shawn');
-        cy.get('#lastName').type('Frost');
-        cy.get('#userNumber').type('1234567890');
-        cy.get('#userEmail').type("Shawnfrost@gmail.com")
-
-        cy.get('#gender-radio-1').check({force: true});
-        cy.get('#subjectsInput').type('Maths{enter}');
-        cy.get('#hobbies-checkbox-1').check({force:true});
-        cy.get('#react-select-3-input').type('NCR{enter}');
-        cy.get('#react-select-4-input').type('Delhi{enter}');
-
-        cy.get('#submit').click({force:true});
-
-        cy.contains('Thanks for submitting the form').should('be.visible');
+// En cypress/support/commands.js
+Cypress.Commands.add('loginSauce', () => {
+    cy.visit('[https://www.saucedemo.com/](https://www.saucedemo.com/)');
+    cy.fixture('users').then((data) => {
+        cy.get('#user-name').type(data.usuarioValido);
+        cy.get('#password').type(data.passwordGeneral);
+        cy.get('#login-button').click();
     });
+});
+
+// En cypress/e2e/saucedemo-login.cy.js
+it('TC-004: Añadir un producto al carrito', () => {
+    cy.loginSauce(); // Uso del comando personalizado
+    cy.get('#add-to-cart-sauce-labs-backpack').click();
+    cy.get('.shopping_cart_link').click();
+    cy.get('.shopping_cart_badge').should('have.text', '1');
 });
