@@ -1,4 +1,4 @@
-# Portafolio de Automatización E2E con Cypress
+# Portfolio de Automatización E2E con Cypress
 
 Este repositorio contiene una colección de proyectos de **Automatización de Pruebas End-to-End (E2E)**. El objetivo es demostrar la evolución en el uso de Cypress, desde la interacción con elementos complejos en la interfaz hasta la creación de flujos de compra completos utilizando buenas prácticas de programación y arquitectura de pruebas.
 
